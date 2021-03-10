@@ -43,24 +43,6 @@ async function searchPlayers() {
 
 	playerContent.innerHTML = '<div class="loading"><div></div><div></div></div>';
 	
-	// Then and catch method
-	apiRequest(endpoints.getPlayer, firstName, lastName)
-		.then(response => response.json())
-		.then(data => {
-			apiRequest(endpoints.playerImage, firstName, lastName)
-				.then(response => response.blob())
-				.then(imageData => {
-					const imageReader = handleImageResponse(imageData);
-
-					imageReader.onloadend = () => {
-						playerContent.innerHTML = createPlayerStructure(data, imageReader.result)
-					}
-				})
-				.catch(error => playerContent.innerHTML = createErrorStructure(error))
-		})
-		.catch(error => playerContent.innerHTML = createErrorStructure(error))
-
-	// Async/Await method
 	try {
 		const playerResponse = await apiRequest(endpoints.getPlayer, firstName, lastName);
 		const playerData = await playerResponse.json();
